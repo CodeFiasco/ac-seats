@@ -8,6 +8,7 @@ export default class extends React.Component {
         this.state = {login: false, error: ''};
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleCampusUpdate = this.handleCampusUpdate.bind(this);
     };
 
     render() {
@@ -19,7 +20,7 @@ export default class extends React.Component {
             return <CampusList handleSelect={this.handleSelect} token={this.state.token}/>;
         }
 
-        return <CadetForm location={this.state.location} token={this.state.token}/>
+        return <CadetForm location={this.state.location} handleSubmit={this.handleCampusUpdate} token={this.state.token}/>
     };
     
     handleSubmit(name, password) {
@@ -52,4 +53,21 @@ export default class extends React.Component {
     handleSelect(location) {
         this.setState({ location });
     };
+
+    handleCampusUpdate(cadets) {
+        fetch(
+            `${location.origin}/api/campus/${this.state.location}/cadet`,
+            {
+                method: 'put',
+                headers: {'Content-Type':'application/json', 'Authorization': `Bearer ${this.state.token}` },
+                body: JSON.stringify({cadets})
+            }
+        
+        ).then(() => {
+            this.setState({
+                login: false,
+                location: undefined
+            });
+        });
+    } 
 }

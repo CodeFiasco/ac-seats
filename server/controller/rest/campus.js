@@ -43,7 +43,7 @@ module.exports = {
         });
 
         // create cadet related to campus
-        server.post(`${'/api/campus'}/:location/cadet`, tokenManager.validate, (req, res) => {
+        server.post(`${CAMPUS_API_ROOT}/:location/cadet`, tokenManager.validate, (req, res) => {
             Campus.findOne({location: ignoreCase(req.params.location)}, (err, campus) => {
                 const cadet = new Cadet(req.body);
                 campus.cadets.push(cadet);
@@ -52,6 +52,16 @@ module.exports = {
                     campus.save((err, updatedModel) => {
                         res.status(201).send();
                     });
+                });
+            });
+        });
+
+        server.put(`${CAMPUS_API_ROOT}/:location/cadet`, tokenManager.validate, (req, res) => {
+            Campus.findOne({location: ignoreCase(req.params.location)}, (err, campus) => {
+                campus.cadets = req.body.cadets;
+
+                campus.save((err, updatedModel) => {
+                    res.status(201).send();
                 });
             });
         });

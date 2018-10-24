@@ -1,5 +1,6 @@
 import Flex from '../components/Flex';
 import Card from '../components/Card';
+import organizeSeats from '../utils/organizeSeats';
 
 const SPACE_KEY = 32;
 const S_KEY = 83;
@@ -44,10 +45,10 @@ export default class extends React.Component {
                 {this.state.rows.map((row, index) => (
                     <Flex key={index}>
                         {row.map((cadet) =>
-                            <Flex key={cadet} direction={Flex.DIRECTION.VERTICAL}>
+                            <Flex key={cadet.seat} direction={Flex.DIRECTION.VERTICAL}>
                                 <Card>
                                     <Card.Image src="/static/chair.png" />
-                                    <Card.Description text={aux++ < this.state.show ? cadet : ''} />
+                                    <Card.Description text={aux++ < this.state.show ? cadet.name : ''} />
                                 </Card>
                             </Flex>
                         )}
@@ -57,20 +58,6 @@ export default class extends React.Component {
         );
     };
 };
-
-function organizeSeats(cadets) {
-    const rows = [];
-
-    cadets.forEach(c => {
-        if (!rows[c.row]) {
-            rows[c.row] = [];
-        }
-
-        rows[c.row][c.seat] = c.name;
-    });
-
-    return rows;
-}
 
 function randomize(rows) {
 
