@@ -7,19 +7,21 @@ const SPACE_KEY = 32;
 export default class extends React.Component {
     static async getInitialProps({ query }) {
         return { rows: organizeSeats(query.campus.cadets) };
-    }
+    };
 
     state = { rows: this.props.rows, show: 0 };
 
     componentDidMount() {
         document.addEventListener('keyup', key => {
             if (key.keyCode !== SPACE_KEY) {
-                return
+                return;
             }
 
-            this.setState({ show: this.state.show + 1 })
+            this.setState({ show: this.state.show + 1 });
         });
-    }
+
+        randomize(this.props.rows);
+    };
 
     render() {
         let aux = 0;
@@ -40,7 +42,7 @@ export default class extends React.Component {
                 ))}
             </Flex>
         );
-    }
+    };
 };
 
 function organizeSeats(cadets) {
@@ -53,6 +55,22 @@ function organizeSeats(cadets) {
 
         rows[c.row][c.seat] = c.name;
     });
+
+    return rows;
+}
+
+function randomize(rows) {
+
+    for (let i = 0; i < rows.length; i++) {
+
+        for (let j = 0; j < rows[i].length; j++) {
+            const r = Math.floor(Math.random() * rows.length);
+            const s = Math.floor(Math.random() * rows[r].length);
+            const aux = rows[r][s];
+            rows[r][s] = rows[i][j];
+            rows[i][j] = aux;
+        }
+    }
 
     return rows;
 }
