@@ -1,22 +1,17 @@
-const tokenManager = require('../jwt/tokenManager');
-
-function ignoreCase(str) {
-    return {$regex : new RegExp(str, "i")};
-}
+const tokenManager = require('../../jwt/tokenManager');
 
 module.exports = {
-    init: (server, app) => {
+    init: (server) => {
 
-        server.get('/', (req, res) => {
+        // list campus
+        server.get('/api/campus', tokenManager.validate, (req, res) => {
             Campus.find({}, 'location', (err, campuses) => {
-                const page = '/index';
-                const queryParams = { campuses };
-                app.render(req, res, page, queryParams);
+                res.json(campuses);
             });
         });
-        
+
         // create campus
-        server.post('/campus', tokenManager.validate, (req, res) => {
+        server.post('/api/campus', tokenManager.validate, (req, res) => {
             if (!req.body.location) {
                 return res.status(400).json({error: 'location missing'});
             }
@@ -32,7 +27,7 @@ module.exports = {
         });
 
         // create cadet related to campus
-        server.post('/campus/:location/cadet', (req, res) => {
+        server.post('/api/campus/:location/cadet', (req, res) => {
             Campus.findOne({location: ignoreCase(req.params.location)}, (err, campus) => {
                 const cadet = new Cadet(req.body);
                 campus.cadets.push(cadet);
@@ -42,18 +37,6 @@ module.exports = {
                         res.status(201).send();
                     });
                 });
-            });
-        });
-
-        server.get('/campus/:location', (req, res) => {
-            Campus.findOne({location: ignoreCase(req.params.location)}, (err, campus) => {
-                if (!campus) {
-                    return app.render(req, res, '/index');
-                }
-
-                const page = '/room';
-                const queryParams = { campus };
-                app.render(req, res, page, queryParams);
             });
         });
     }

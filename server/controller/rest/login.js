@@ -1,8 +1,7 @@
-const tokenManager = require('../jwt/tokenManager');
+const tokenManager = require('../../jwt/tokenManager');
 
 module.exports = {
     init: (server) => {
-
         server.post('/login', (req, res) => {
             tokenManager.create(req.body, (err, token) => {
                 if (err) {

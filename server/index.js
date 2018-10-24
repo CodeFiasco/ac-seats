@@ -15,11 +15,14 @@ app.prepare()
   const server = express();
   server.use(bodyParser.json());
 
-  const loginController = require('./controller/login');
+  const loginController = require('./controller/rest/login');
   loginController.init(server);
 
-  const campusController = require('./controller/campus');
-  campusController.init(server, app);
+  const campusRestController = require('./controller/rest/campus');
+  campusRestController.init(server);
+
+  const campusWebController = require('./controller/web/campus');
+  campusWebController.init(server, app);
     
   server.get('*', (req, res) => {
     return handle(req, res);
