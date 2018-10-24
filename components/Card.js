@@ -23,4 +23,16 @@ const Card = ({children}) => {
     )
 };
 
+Card.Image = ({src}) => (
+    <div style={styles.image}>
+        <img src={src} alt=""/>
+    </div>
+);
+
+Card.Description = ({text}) => (
+    <div style={styles.description}>
+        {text}
+    </div>
+);
+
 export default Card;

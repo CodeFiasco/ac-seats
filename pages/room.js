@@ -11,16 +11,14 @@ export default class extends React.Component {
 
     render() {
         return (
-            <Flex direction={'vertical'} style={{ height: '100vh' }}>
+            <Flex direction={Flex.DIRECTION.VERTICAL} style={{ height: '100vh' }}>
                 {this.state.rows.map((row, index) => (
                     <Flex key={index}>
                         {row.map((cadet) =>
-                            <Flex key={cadet} direction={'vertical'}>
+                            <Flex key={cadet} direction={Flex.DIRECTION.VERTICAL}>
                                 <Card>
-                                    <div>
-                                        <img src="/static/chair.png" style={{height: '65%'}}/>
-                                        <div style={{height: '35%'}}>{cadet}</div>
-                                    </div>
+                                    <Card.Image src="/static/chair.png" />
+                                    <Card.Description text={cadet} />
                                 </Card>
                             </Flex>
                         )}
