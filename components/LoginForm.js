@@ -33,6 +33,7 @@ export default class extends React.Component {
                         </label>
                         <input type="submit"/>
                     </Card>
+                    <label>{this.props.error}</label>
                 </form>
             </Flex>
         );
