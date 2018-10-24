@@ -6,6 +6,9 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 const port = process.env.PORT || 3000;
 
+const db = require('./db/connection');
+db.load();
+
 app.prepare()
 .then(() => {
   const server = express();

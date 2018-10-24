@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Campus",
+        "schema": {
+            "location": "string",
+            "cadets": [{
+                "type": "Schema.Types.ObjectId",
+                "ref": "Cadet"
+            }]
+        }
+    },
+    {
+        "name": "Cadet",
+        "schema": {
+            "name": "string",
+            "row": "number",
+            "seat": "number"
+        }
+    }
+]
