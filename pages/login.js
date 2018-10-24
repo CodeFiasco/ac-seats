@@ -1,11 +1,13 @@
 import LoginForm from '../components/LoginForm';
 import CampusList from '../components/CampusList';
+import CadetForm from '../components/CadetForm';
 
 export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {login: false, error: ''};
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
     };
 
     render() {
@@ -13,7 +15,11 @@ export default class extends React.Component {
             return <LoginForm handleSubmit={this.handleSubmit} error={this.state.error}/>;
         }
 
-        return <CampusList handleSelect={this.handleSelect} token={this.state.token}/>;
+        if (!this.state.location) {
+            return <CampusList handleSelect={this.handleSelect} token={this.state.token}/>;
+        }
+
+        return <CadetForm location={this.state.location} token={this.state.token}/>
     };
     
     handleSubmit(name, password) {
@@ -44,6 +50,6 @@ export default class extends React.Component {
     };
 
     handleSelect(location) {
-        console.log(location);
-    }
+        this.setState({ location });
+    };
 }
