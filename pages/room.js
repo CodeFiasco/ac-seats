@@ -1,4 +1,3 @@
-import React from 'react';
 import Flex from '../components/Flex';
 import Card from '../components/Card';
 

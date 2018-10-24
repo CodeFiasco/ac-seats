@@ -7,11 +7,11 @@ function ignoreCase(str) {
 module.exports = {
     init: (server, app) => {
 
-        
-        // list campuses
-        server.get('/campus', (req, res) => {
+        server.get('/', (req, res) => {
             Campus.find({}, 'location', (err, campuses) => {
-                res.json(campuses);
+                const page = '/index';
+                const queryParams = { campuses };
+                app.render(req, res, page, queryParams);
             });
         });
         

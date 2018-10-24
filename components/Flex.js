@@ -4,7 +4,8 @@ const styles = {
     container: {
         display: 'flex',
         flexWrap: 'nowrap',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 };
 

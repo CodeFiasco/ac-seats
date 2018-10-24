@@ -1,45 +1,21 @@
-import Link from 'next/link';
+import Flex from '../components/Flex';
+import Card from '../components/Card';
 
-class CampusesList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          error: null,
-          isLoaded: false,
-          campuses: []
-        };
-      }
-    
-      componentDidMount() {
-        fetch("http://localhost:3000/campus")
-          .then(res => res.json())
-          .then(
-            (data) => {
-              this.setState({
-                isLoaded: true,
-                campuses: data
-              });
-            },
-            (error) => {
-              this.setState({
-                isLoaded: true,
-                error
-              });
-            }
-          )
-      }
+export default class extends React.Component {
+    static async getInitialProps({ query }) {
+        return { campuses: query.campuses };
+    };
 
-      render() {
-          return <ul>
-              {this.state.campuses.map(campus => (
-                  <li key={campus.location}>
-                    <Link href={`/${campus.location}`}>
-                        <a>{campus.location}</a>
-                    </Link>
-                  </li>
-              ))}
-          </ul>
-      }
-}
-
-export default CampusesList;
+    render() {
+        return (
+            <Flex direction={Flex.DIRECTION.HORIZONTAL} style={{ height: '90vh' }}>
+                {this.props.campuses.map(campus => (
+                    <Card key={campus.location}>
+                        <Card.Image src="/static/chair.png" />
+                        <a href={`/${campus.location}`} style={{ height: '65%' }}>{campus.location}</a>
+                    </Card>
+                ))}
+            </Flex>
+        );
+    };
+};
