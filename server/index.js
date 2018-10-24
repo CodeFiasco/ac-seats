@@ -1,5 +1,6 @@
 const express = require('express');
 const next = require('next');
+const bodyParser = require('body-parser');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -12,6 +13,10 @@ db.load();
 app.prepare()
 .then(() => {
   const server = express();
+  server.use(bodyParser.json());
+
+  const campusController = require('./rest/controller/campus');
+  campusController.init(server);
     
   server.get('*', (req, res) => {
     return handle(req, res);

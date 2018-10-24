@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "generate-schema": "^2.6.0",
     "jsonwebtoken": "^8.3.0",
