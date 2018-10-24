@@ -73,8 +73,14 @@ export default class extends React.Component {
         const name = target.name;
         const value = target.value;
 
-        rows[row][seat][name] = value;
-        
+        const cadet = rows[row][seat];
+        cadet[name] = value;
+
+        if (rows[cadet.row][cadet.seat]) {
+            rows[cadet.row][cadet.seat].row = row;
+            rows[cadet.row][cadet.seat].seat = seat;
+        }
+
         this.setState({
             rows: organizeSeats(collapseRows(rows))
         });
