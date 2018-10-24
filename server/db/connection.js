@@ -10,14 +10,10 @@ db.once('open', () => console.log('db connected'));
 const models = require('./models.json');
 const generateSchema = require('generate-schema').mongoose;
 
-const autoIncrement = require('mongoose-auto-increment');
-autoIncrement.initialize(db);
-
 module.exports = {
     load: () => {
         models.forEach(model => {
             const schema = new mongoose.Schema(generateSchema(model.schema));
-            schema.plugin(autoIncrement.plugin, schema.name);
             global[model.name] = mongoose.model(model.name, schema);
         });
     }
