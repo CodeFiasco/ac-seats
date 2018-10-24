@@ -9,7 +9,7 @@ module.exports = {
     init: (server) => {
 
         // list campus
-        server.get(CAMPUS_API_ROOT, tokenManager.validate, (req, res) => {
+        server.get(CAMPUS_API_ROOT, (req, res) => {
             Campus.find({}, 'location', (err, campuses) => {
                 res.json(campuses);
             });

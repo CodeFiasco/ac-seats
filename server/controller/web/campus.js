@@ -4,15 +4,6 @@ function ignoreCase(str) {
 
 module.exports = {
     init: (server, app) => {
-
-        server.get('/', (req, res) => {
-            Campus.find({}, 'location', (err, campuses) => {
-                const page = '/index';
-                const queryParams = { campuses };
-                app.render(req, res, page, queryParams);
-            });
-        });
-        
         server.get('/campus/:location', (req, res) => {
             Campus.findOne({location: ignoreCase(req.params.location)}, (err, campus) => {
                 if (!campus) {
