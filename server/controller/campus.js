@@ -45,7 +45,7 @@ module.exports = {
             });
         });
 
-        server.get('/:location', (req, res) => {
+        server.get('/campus/:location', (req, res) => {
             Campus.findOne({location: ignoreCase(req.params.location)}, (err, campus) => {
                 if (!campus) {
                     return app.render(req, res, '/index');

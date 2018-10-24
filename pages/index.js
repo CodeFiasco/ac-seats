@@ -12,7 +12,7 @@ export default class extends React.Component {
                 {this.props.campuses.map(campus => (
                     <Card key={campus.location}>
                         <Card.Image src="/static/chair.png" />
-                        <a href={`/${campus.location}`} style={{ height: '65%' }}>{campus.location}</a>
+                        <a href={`/campus/${campus.location}`} style={{ height: '65%' }}>{campus.location}</a>
                     </Card>
                 ))}
             </Flex>
