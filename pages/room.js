@@ -2,14 +2,28 @@ import React from 'react';
 import Flex from '../components/Flex';
 import Card from '../components/Card';
 
+const SPACE_KEY = 32;
+
 export default class extends React.Component {
     static async getInitialProps({ query }) {
         return { rows: organizeSeats(query.campus.cadets) };
     }
 
-    state = { rows: this.props.rows };
+    state = { rows: this.props.rows, show: 0 };
+
+    componentDidMount() {
+        document.addEventListener('keyup', key => {
+            if (key.keyCode !== SPACE_KEY) {
+                return
+            }
+
+            this.setState({ show: this.state.show + 1 })
+        });
+    }
 
     render() {
+        let aux = 0;
+
         return (
             <Flex direction={Flex.DIRECTION.VERTICAL} style={{ height: '100vh' }}>
                 {this.state.rows.map((row, index) => (
@@ -18,7 +32,7 @@ export default class extends React.Component {
                             <Flex key={cadet} direction={Flex.DIRECTION.VERTICAL}>
                                 <Card>
                                     <Card.Image src="/static/chair.png" />
-                                    <Card.Description text={cadet} />
+                                    <Card.Description text={aux++ < this.state.show ? cadet : ''} />
                                 </Card>
                             </Flex>
                         )}
