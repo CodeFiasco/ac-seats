@@ -3,6 +3,8 @@ import Flex from '../components/Flex';
 import Card from '../components/Card';
 
 const SPACE_KEY = 32;
+const S_KEY = 83;
+let jerkMode = false;
 
 export default class extends React.Component {
     static async getInitialProps({ query }) {
@@ -12,15 +14,27 @@ export default class extends React.Component {
     state = { rows: this.props.rows, show: 0 };
 
     componentDidMount() {
+        document.addEventListener('keydown', key => {
+            if (this.state.show === 0 && key.keyCode === S_KEY) {
+                jerkMode = true;
+            }
+        });
+
         document.addEventListener('keyup', key => {
+            if (key.keyCode === S_KEY) {
+                jerkMode = true;
+            }
+
             if (key.keyCode !== SPACE_KEY) {
                 return;
             }
 
+            if (!jerkMode && this.state.show === 0) {
+                randomize(this.props.rows);
+            }
+            
             this.setState({ show: this.state.show + 1 });
         });
-
-        randomize(this.props.rows);
     };
 
     render() {
