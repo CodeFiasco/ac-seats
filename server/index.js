@@ -15,6 +15,9 @@ app.prepare()
   const server = express();
   server.use(bodyParser.json());
 
+  const loginController = require('./controller/login');
+  loginController.init(server);
+
   const campusController = require('./controller/campus');
   campusController.init(server, app);
     
