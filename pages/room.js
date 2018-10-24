@@ -1,20 +1,13 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
-
-const Flex = dynamic(() => import('../components/Flex'));
-const Card = dynamic(() => import('../components/Card'));
-
-const rows =  [
-    [ "potato", "tomato", "carrot", "cauliflower" ],
-    [ "corn", "pee" ]
-];
+import Flex from '../components/Flex';
+import Card from '../components/Card';
 
 export default class extends React.Component {
     static async getInitialProps({ query }) {
-        return { campus: query.campus };
+        return { rows: organizeSeats(query.campus.cadets) };
     }
 
-    state = { rows };
+    state = { rows: this.props.rows };
 
     render() {
         return (
@@ -37,3 +30,17 @@ export default class extends React.Component {
         );
     }
 };
+
+function organizeSeats(cadets) {
+    const rows = [];
+
+    cadets.forEach(c => {
+        if (!rows[c.row]) {
+            rows[c.row] = [];
+        }
+
+        rows[c.row][c.seat] = c.name;
+    });
+
+    return rows;
+}
