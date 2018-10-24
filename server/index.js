@@ -15,8 +15,8 @@ app.prepare()
   const server = express();
   server.use(bodyParser.json());
 
-  const campusController = require('./rest/controller/campus');
-  campusController.init(server);
+  const campusController = require('./controller/campus');
+  campusController.init(server, app);
     
   server.get('*', (req, res) => {
     return handle(req, res);
