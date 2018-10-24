@@ -1,17 +1,22 @@
 const tokenManager = require('../../jwt/tokenManager');
+const CAMPUS_API_ROOT = '/api/campus';
+
+function ignoreCase(str) {
+    return {$regex : new RegExp(str, "i")};
+}
 
 module.exports = {
     init: (server) => {
 
         // list campus
-        server.get('/api/campus', tokenManager.validate, (req, res) => {
+        server.get(CAMPUS_API_ROOT, tokenManager.validate, (req, res) => {
             Campus.find({}, 'location', (err, campuses) => {
                 res.json(campuses);
             });
         });
 
         // create campus
-        server.post('/api/campus', tokenManager.validate, (req, res) => {
+        server.post(CAMPUS_API_ROOT, tokenManager.validate, (req, res) => {
             if (!req.body.location) {
                 return res.status(400).json({error: 'location missing'});
             }
@@ -26,8 +31,19 @@ module.exports = {
             });
         });
 
+        // list bootcamp cadets
+        server.get(`${CAMPUS_API_ROOT}/:location/cadet`, (req, res) => {
+            Campus.findOne({location: ignoreCase(req.params.location)}, (err, campus) => {
+                if (!campus) {
+                    return res.status(404).json({error: 'invalid location'});
+                }
+
+                res.json(campus);
+            });
+        });
+
         // create cadet related to campus
-        server.post('/api/campus/:location/cadet', (req, res) => {
+        server.post(`${'/api/campus'}/:location/cadet`, tokenManager.validate, (req, res) => {
             Campus.findOne({location: ignoreCase(req.params.location)}, (err, campus) => {
                 const cadet = new Cadet(req.body);
                 campus.cadets.push(cadet);
