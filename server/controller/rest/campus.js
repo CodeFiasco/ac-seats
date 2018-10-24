@@ -32,7 +32,7 @@ module.exports = {
         });
 
         // list bootcamp cadets
-        server.get(`${CAMPUS_API_ROOT}/:location/cadet`, (req, res) => {
+        server.get(`${CAMPUS_API_ROOT}/:location/cadet`, tokenManager.validate, (req, res) => {
             Campus.findOne({location: ignoreCase(req.params.location)}, (err, campus) => {
                 if (!campus) {
                     return res.status(404).json({error: 'invalid location'});

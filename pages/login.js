@@ -1,4 +1,5 @@
 import LoginForm from '../components/LoginForm';
+import CampusList from '../components/CampusList';
 
 export default class extends React.Component {
     constructor(props) {
@@ -12,7 +13,7 @@ export default class extends React.Component {
             return <LoginForm handleSubmit={this.handleSubmit} error={this.state.error}/>;
         }
 
-        return <div>Logged in! Token: {this.state.token}</div>
+        return <CampusList handleSelect={this.handleSelect} token={this.state.token}/>;
     };
     
     handleSubmit(name, password) {
@@ -41,4 +42,8 @@ export default class extends React.Component {
             this.setState({ error: error.message });
         });
     };
+
+    handleSelect(location) {
+        console.log(location);
+    }
 }
