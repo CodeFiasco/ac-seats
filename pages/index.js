@@ -1,1 +1,1 @@
-export default () => <div>Hello world!</div>
+export default () => <div>Hello world <img src="/static/chair.png"/></div>
