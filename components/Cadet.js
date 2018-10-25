@@ -2,11 +2,8 @@ import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
-    border: 1px solid black;
-    border-radius: 2px;
     padding: 8px;
     margin: 8px;
-    background-color: #111;
     text-align: center;
     width: 75px;
 `;

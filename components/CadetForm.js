@@ -8,6 +8,16 @@ const Container = styled.div`
     flex-wrap: wrap;
 `;
 
+const Controls = styled.div`
+    width: 300px;
+    display: block;
+    margin: 10px auto;
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+`;
+
 export default class extends React.Component {
     constructor(props) {
         super(props);
@@ -41,10 +51,12 @@ export default class extends React.Component {
                             )}
                     </Container>
                 </DragDropContext>
-                <button onClick={this.handleSubmit}>Save</button>
-                <input type="text" value={this.state.newCadetName} onChange={this.handleInput} />
-                <button onClick={this.createCadet}>Add Cadet</button>
-                <button onClick={this.addRow}>Add row</button>
+                <Controls>
+                    <button onClick={this.handleSubmit}>Save Changes</button><br />
+                    <input type="text" value={this.state.newCadetName} onChange={this.handleInput} />
+                    <button onClick={this.createCadet}>Add Cadet</button><br/>
+                    <button onClick={this.addRow}>Add row</button>
+                </Controls>
             </div>
         );
     };
