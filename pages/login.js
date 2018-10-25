@@ -80,10 +80,7 @@ export default class extends React.Component {
             }
         
         ).then(() => {
-            this.setState({
-                login: false,
-                location: undefined
-            });
+            alert('seats updated!');
         });
     } 
 }
