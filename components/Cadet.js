@@ -6,9 +6,35 @@ const Container = styled.div`
     margin: 8px;
     text-align: center;
     width: 75px;
+    position: relative;
+`;
+
+const DeleteButton = styled.button`
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border: none;
+    background: red;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 8px;
+    width: 16px;
+    height: 16px;
+    line-height: 8px;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+    cursor: pointer;
 `;
 
 export default class extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleDeleteCadet = this.handleDeleteCadet.bind(this);
+    };
+
     render() {
         return (
             <Draggable draggableId={this.props.name} index={this.props.index}>
@@ -20,9 +46,14 @@ export default class extends React.Component {
                     >
                         <img src="/static/chair.png" style={{margin: '0 auto', display: 'block'}}/>
                         <span style={{width: '100%', margin: '0 auto'}}>{this.props.name}</span>
+                        <DeleteButton onClick={this.handleDeleteCadet} >X</DeleteButton>
                     </Container>
                 )}
             </Draggable>
         );
+    };
+
+    handleDeleteCadet() {
+        this.props.deleteCadet(this.props.name);
     }
 }

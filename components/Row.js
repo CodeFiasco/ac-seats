@@ -30,7 +30,7 @@ export default class extends React.Component {
                             {...provided.droppableProps}
                         >
                             {this.props.cadets.map((cadet, index) =>
-                                <Cadet key={index} name={cadet} index={index}/>
+                                <Cadet key={index} name={cadet} index={index} deleteCadet={this.props.deleteCadet}/>
                                 )}
                             {provided.placeholder}
                         </CadetList>

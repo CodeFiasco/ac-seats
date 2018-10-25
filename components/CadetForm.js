@@ -27,6 +27,7 @@ export default class extends React.Component {
         this.createCadet = this.createCadet.bind(this);
         this.addRow = this.addRow.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.deleteCadet = this.deleteCadet.bind(this);
     };
 
     componentDidMount() {
@@ -47,7 +48,7 @@ export default class extends React.Component {
                 <DragDropContext onDragEnd={this.onDragEnd}>
                     <Container>
                         {this.state.rows.map((row, index) => 
-                            <Row key={index} id={index + ''} cadets={row}/>
+                            <Row key={index} id={index + ''} cadets={row} deleteCadet={this.deleteCadet}/>
                             )}
                     </Container>
                 </DragDropContext>
@@ -78,6 +79,15 @@ export default class extends React.Component {
         this.setState({
             rows,
             newCadetName: ''
+        });
+    }
+
+    deleteCadet(name) {
+        const rows = this.state.rows;
+        const updatedRows = rows.map(row => row.filter(cadetName => cadetName !== name));
+
+        this.setState({
+            rows: updatedRows
         });
     }
 
