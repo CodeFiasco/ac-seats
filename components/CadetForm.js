@@ -1,12 +1,18 @@
-import Flex from '../components/Flex';
-import Card from '../components/Card';
+import { DragDropContext } from 'react-beautiful-dnd';
+import Row from './Row';
+import styled from 'styled-components';
+import organizeSeats from '../utils/organizeSeats';
+
+const Container = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
 
 export default class extends React.Component {
     constructor(props) {
         super(props);
         
-        this.state = {cadets: []};
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.state = {rows: []};
         this.handleSubmit = this.handleSubmit.bind(this);
     };
 
@@ -18,59 +24,20 @@ export default class extends React.Component {
             }
         ).then(res => res.json())
         .then(result => {
-            console.log(result.cadets);
-            this.setState({cadets: result.cadets});
+            this.setState({rows: organizeSeats(result.cadets)});
         });
     };
 
     render() {
         return (
-            <Flex direction={Flex.DIRECTION.VERTICAL} style={{ height: '90vh' }}>
-                <form onSubmit={this.handleSubmit}>
-                    {this.state.cadets.map((cadet, index) =>
-                        <Flex key={index} direction={Flex.DIRECTION.VERTICAL}>
-                            <Card>
-                                <span>{cadet.name}</span>
-                                <label>
-                                    Row:
-                                    <input 
-                                        index={index}
-                                        type="number" 
-                                        name="row"
-                                        value={cadet.row} 
-                                        onChange={this.handleInputChange}/>
-                                </label>
-                                <label>
-                                    Seat:
-                                    <input 
-                                        index={index}
-                                        type="number"
-                                        name="seat"
-                                        value={cadet.seat} 
-                                        onChange={this.handleInputChange}/>
-                                </label>
-                            </Card>
-                        </Flex>
+            <DragDropContext onDragEnd={this.onDragEnd}>
+                <Container>
+                    {this.state.rows.map((row, index) => 
+                        <Row key={index} id={index + ''} cadets={row}/>
                     )}
-                    <input type="submit"/>
-                </form>
-            </Flex>
+                </Container>
+            </DragDropContext>
         );
-    };
-
-    handleInputChange(event) {
-        const index = event.target.getAttribute('index');
-
-        const target = event.target;
-        const name = target.name;
-        const value = target.value;
-
-        const cadets = this.state.cadets;
-        cadets[index][name] = value;
-
-        this.setState({
-            cadets
-        });
     };
 
     handleSubmit(event) {
@@ -80,4 +47,47 @@ export default class extends React.Component {
             this.state.cadets
         );
     };
+
+    onDragEnd = result =>{
+        const { source, destination, draggableId } = result;
+
+        if (!destination) {
+            return;
+        }
+
+        if (destination.droppableId === source.droppableId && destination.index === source.index) {
+            return;
+        }
+        
+        const startRow = this.state.rows[source.droppableId];
+        const finishRow = this.state.rows[destination.droppableId];
+
+        if (startRow === finishRow) {
+            const newRow = Array.from(startRow);
+            newRow.splice(source.index, 1);
+            newRow.splice(destination.index, 0, draggableId);
+
+            const rows = this.state.rows;
+            rows[source.droppableId] = newRow;
+
+            this.setState({
+                rows
+            });
+            return;
+        }
+
+        const newSourceRow = Array.from(startRow);
+        newSourceRow.splice(source.index, 1);
+
+        const newFinishRow = Array.from(finishRow);
+        newFinishRow.splice(destination.index, 0, draggableId);
+
+        const rows = this.state.rows;
+        rows[source.droppableId] = newSourceRow;
+        rows[destination.droppableId] = newFinishRow;
+
+        this.setState({
+            rows
+        });
+   }
 }
