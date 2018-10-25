@@ -1,3 +1,4 @@
+import Header from '../components/Header';
 import Flex from '../components/Flex';
 import Card from '../components/Card';
 import converter from '../utils/converter';
@@ -41,20 +42,23 @@ export default class extends React.Component {
         let aux = 0;
 
         return (
-            <Flex direction={Flex.DIRECTION.VERTICAL} style={{ height: '100vh' }}>
-                {this.state.rows.map((row, index) => (
-                    <Flex key={index}>
-                        {row.map((cadet, index) =>
-                            <Flex key={index} direction={Flex.DIRECTION.VERTICAL}>
-                                <Card>
-                                    <Card.Image src="/static/chair.png" />
-                                    <Card.Description text={aux++ < this.state.show ? cadet : ''} />
-                                </Card>
-                            </Flex>
-                        )}
-                    </Flex>
-                ))}
-            </Flex>
+            <div>
+                <Header/>
+                <Flex direction={Flex.DIRECTION.VERTICAL} style={{ height: '100vh' }}>
+                    {this.state.rows.map((row, index) => (
+                        <Flex key={index}>
+                            {row.map((cadet, index) =>
+                                <Flex key={index} direction={Flex.DIRECTION.VERTICAL}>
+                                    <Card>
+                                        <Card.Image src="/static/chair.png" />
+                                        <Card.Description text={aux++ < this.state.show ? cadet : ''} />
+                                    </Card>
+                                </Flex>
+                            )}
+                        </Flex>
+                    ))}
+                </Flex>
+            </div>
         );
     };
 };

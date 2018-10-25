@@ -1,3 +1,4 @@
+import Header from '../components/Header';
 import LoginForm from '../components/LoginForm';
 import CampusList from '../components/CampusList';
 import CadetForm from '../components/CadetForm';
@@ -13,14 +14,29 @@ export default class extends React.Component {
 
     render() {
         if (!this.state.login) {
-            return <LoginForm handleSubmit={this.handleSubmit} error={this.state.error}/>;
+            return (
+                <div>
+                    <Header />
+                    <LoginForm handleSubmit={this.handleSubmit} error={this.state.error}/>
+                </div>
+            );
         }
 
         if (!this.state.location) {
-            return <CampusList handleSelect={this.handleSelect} token={this.state.token}/>;
+            return (
+                <div>
+                    <Header />
+                    <CampusList handleSelect={this.handleSelect} token={this.state.token}/>
+                </div>
+            );
         }
 
-        return <CadetForm location={this.state.location} handleSubmit={this.handleCampusUpdate} token={this.state.token}/>
+        return (
+            <div>
+                <Header />
+                <CadetForm location={this.state.location} handleSubmit={this.handleCampusUpdate} token={this.state.token}/>
+            </div>
+        );
     };
     
     handleSubmit(name, password) {

@@ -1,8 +1,14 @@
+import Header from '../components/Header';
 import CampusList from '../components/CampusList';
 
 export default class extends React.Component {
     render() {
-        return <CampusList handleSelect={this.handleSelect} />;
+        return (
+            <div>
+                <Header />
+                <CampusList handleSelect={this.handleSelect} />;
+            </div>
+        );
     };
 
     handleSelect(location) {
