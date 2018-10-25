@@ -6,7 +6,7 @@ export default (cadets) => {
             rows[c.row] = [];
         }
 
-        rows[c.row][c.seat] = c;
+        rows[c.row][c.seat] = c.name;
     });
 
     return rows;

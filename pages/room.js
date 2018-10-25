@@ -44,11 +44,11 @@ export default class extends React.Component {
             <Flex direction={Flex.DIRECTION.VERTICAL} style={{ height: '100vh' }}>
                 {this.state.rows.map((row, index) => (
                     <Flex key={index}>
-                        {row.map((cadet) =>
-                            <Flex key={cadet.seat} direction={Flex.DIRECTION.VERTICAL}>
+                        {row.map((cadet, index) =>
+                            <Flex key={index} direction={Flex.DIRECTION.VERTICAL}>
                                 <Card>
                                     <Card.Image src="/static/chair.png" />
-                                    <Card.Description text={aux++ < this.state.show ? cadet.name : ''} />
+                                    <Card.Description text={aux++ < this.state.show ? cadet : ''} />
                                 </Card>
                             </Flex>
                         )}
