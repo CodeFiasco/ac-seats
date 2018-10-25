@@ -1,7 +1,7 @@
 import { DragDropContext } from 'react-beautiful-dnd';
 import Row from './Row';
 import styled from 'styled-components';
-import organizeSeats from '../utils/organizeSeats';
+import converter from '../utils/converter';
 
 const Container = styled.div`
     display: flex;
@@ -24,19 +24,22 @@ export default class extends React.Component {
             }
         ).then(res => res.json())
         .then(result => {
-            this.setState({rows: organizeSeats(result.cadets)});
+            this.setState({rows: converter.cadetsToRows(result.cadets)});
         });
     };
 
     render() {
         return (
-            <DragDropContext onDragEnd={this.onDragEnd}>
-                <Container>
-                    {this.state.rows.map((row, index) => 
-                        <Row key={index} id={index + ''} cadets={row}/>
-                    )}
-                </Container>
-            </DragDropContext>
+            <div>
+                <DragDropContext onDragEnd={this.onDragEnd}>
+                    <Container>
+                        {this.state.rows.map((row, index) => 
+                            <Row key={index} id={index + ''} cadets={row}/>
+                            )}
+                    </Container>
+                </DragDropContext>
+                <button onClick={this.handleSubmit}>Save</button>
+            </div>
         );
     };
 
@@ -44,7 +47,7 @@ export default class extends React.Component {
         event.preventDefault();
 
         this.props.handleSubmit(
-            this.state.cadets
+            converter.rowsToCadets(this.state.rows)
         );
     };
 

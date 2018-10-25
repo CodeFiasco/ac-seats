@@ -1,6 +1,6 @@
 import Flex from '../components/Flex';
 import Card from '../components/Card';
-import organizeSeats from '../utils/organizeSeats';
+import converter from '../utils/converter';
 
 const SPACE_KEY = 32;
 const S_KEY = 83;
@@ -8,7 +8,7 @@ let jerkMode = false;
 
 export default class extends React.Component {
     static async getInitialProps({ query }) {
-        return { rows: organizeSeats(query.campus.cadets) };
+        return { rows: converter.cadetsToRows(query.campus.cadets) };
     };
 
     state = { rows: this.props.rows, show: 0 };
