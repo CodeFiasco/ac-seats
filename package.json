@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "nodemon server/index.js",
     "build": "next build",
-    "start": "npm run build && node server/index.js"
+    "start": "node server/index.js",
+    "postinstall": "next build"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
