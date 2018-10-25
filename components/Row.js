@@ -4,7 +4,6 @@ import Cadet from './Cadet';
 
 const Container = styled.div`
     margin: 8px;
-    border: 1px solid #fff;
     border-radius: 2px;
     width: 100%;
     display: flex;
