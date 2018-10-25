@@ -6,7 +6,7 @@ export default class extends React.Component {
         return (
             <div>
                 <Header />
-                <CampusList handleSelect={this.handleSelect} />;
+                <CampusList handleSelect={this.handleSelect} />
             </div>
         );
     };
