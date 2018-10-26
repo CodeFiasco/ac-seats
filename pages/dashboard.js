@@ -7,9 +7,6 @@ export default class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {login: false, error: ''};
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
-        this.handleCampusUpdate = this.handleCampusUpdate.bind(this);
     };
 
     render() {
@@ -39,7 +36,7 @@ export default class extends React.Component {
         );
     };
     
-    handleSubmit(name, password) {
+    handleSubmit = (name, password) => {
         fetch(
             `${location.origin}/login`,
             {
@@ -66,11 +63,11 @@ export default class extends React.Component {
         });
     };
 
-    handleSelect(location) {
+    handleSelect = (location) => {
         this.setState({ location });
     };
 
-    handleCampusUpdate(cadets) {
+    handleCampusUpdate = (cadets) => {
         fetch(
             `${location.origin}/api/campus/${this.state.location}/cadet`,
             {
@@ -80,7 +77,7 @@ export default class extends React.Component {
             }
         
         ).then(() => {
-            alert('seats updated!');
+            alert('seats updated! Press S before starting seat selection to apply this line-up.');
         });
-    } 
+    };
 }
