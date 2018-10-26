@@ -16,7 +16,6 @@ const DeleteButton = styled.button`
     border: none;
     background: red;
     border-radius: 50%;
-    text-align: center;
     color: #fff;
     font-weight: bold;
     font-size: 8px;
@@ -25,14 +24,12 @@ const DeleteButton = styled.button`
     line-height: 8px;
     padding: 0;
     outline: none;
-    box-sizing: border-box;
     cursor: pointer;
 `;
 
 export default class extends React.Component {
     constructor(props) {
         super(props);
-        this.handleDeleteCadet = this.handleDeleteCadet.bind(this);
     };
 
     render() {
@@ -53,7 +50,7 @@ export default class extends React.Component {
         );
     };
 
-    handleDeleteCadet() {
+    handleDeleteCadet = () => {
         this.props.deleteCadet(this.props.name);
     }
 }
