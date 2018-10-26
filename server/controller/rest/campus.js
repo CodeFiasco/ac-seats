@@ -21,7 +21,6 @@ module.exports = {
                 return res.status(400).json({error: 'location missing'});
             }
             
-            console.log(req.body);
             const campus = new Campus(req.body);
             
             campus.save((err, c) => {

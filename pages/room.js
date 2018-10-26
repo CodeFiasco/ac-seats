@@ -84,9 +84,6 @@ export default class extends React.Component {
         const unselected = Array.from(this.state.unselected);
         const selected = Array.from(this.state.selected);
 
-        console.log(unselected);
-        console.log(selected);
-        
         let row = getRandom(unselected.length);
         let seat = getRandom(unselected[row].length);
         
