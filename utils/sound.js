@@ -1,9 +1,5 @@
 export default {
     init(times) {
-        if (!process.browser) {
-            return;
-        }
-
         this.drums = new Audio('/static/drumroll.ogg');
         this.drums.loop = true;
         this.badum = new Audio('/static/badum.ogg');

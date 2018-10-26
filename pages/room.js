@@ -8,7 +8,6 @@ const SPACE_KEY = 32;
 const S_KEY = 83;
 let jerkMode = false;
 
-
 export default class extends React.Component {
     static async getInitialProps({ query }) {
         const cadets = query.campus.cadets;
@@ -19,7 +18,7 @@ export default class extends React.Component {
     
     componentDidMount() {
         sounds.init(this.props.size);
-
+        
         document.addEventListener('keydown', key => {
             if (this.state.show === 0 && key.keyCode === S_KEY) {
                 jerkMode = true;
