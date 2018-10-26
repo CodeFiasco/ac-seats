@@ -24,19 +24,19 @@ export default class extends React.Component {
             return(
                 <Flex direction={Flex.DIRECTION.HORIZONTAL} style={{ height: '90vh' }}>
                     {this.state.campuses.map(campus => (
-                        <Card key={campus.location}>
-                            <Card.Image src="/static/chair.png" />
-                            <a onClick={this.handleClick} value={campus.location} style={{ height: '65%' }}>{campus.location}</a>
-                        </Card>
+                        <a onClick={(e) => this.handleClick(e, campus.location)} key={campus.location}>
+                            <Card>
+                                <Card.Image src="/static/chair.png" />
+                                <Card.Description text={campus.location} />
+                            </Card>
+                        </a>
                     ))}
                 </Flex>
             );
     }
 
-    handleClick(event) {
+    handleClick(event, location) {
         event.preventDefault();
-        const value = event.target.getAttribute('value');
-
-        this.props.handleSelect(value);
+        this.props.handleSelect(location);
     }
 }
