@@ -21,13 +21,7 @@ const Controls = styled.div`
 export default class extends React.Component {
     constructor(props) {
         super(props);
-        
         this.state = {rows: [], newCadetName: ''};
-        this.handleInput = this.handleInput.bind(this);
-        this.createCadet = this.createCadet.bind(this);
-        this.addRow = this.addRow.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.deleteCadet = this.deleteCadet.bind(this);
     };
 
     componentDidMount() {
@@ -62,11 +56,11 @@ export default class extends React.Component {
         );
     };
 
-    handleInput(event) {
+    handleInput = (event) => {
         this.setState({newCadetName: event.target.value});
     }
 
-    createCadet() {
+    createCadet = () => {
 
         if (this.state.rows.length === 0) {
             alert('You need to add a row first!');
@@ -86,27 +80,27 @@ export default class extends React.Component {
             rows,
             newCadetName: ''
         });
-    }
+    };
 
-    deleteCadet(name) {
+    deleteCadet = (name) => {
         const rows = this.state.rows;
         const updatedRows = rows.map(row => row.filter(cadetName => cadetName !== name));
 
         this.setState({
             rows: updatedRows
         });
-    }
+    };
 
-    addRow() {
+    addRow = () => {
         const rows = this.state.rows;
         rows.push([]);
 
         this.setState({
             rows
         });
-    }
+    };
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
 
         this.props.handleSubmit(
@@ -114,7 +108,7 @@ export default class extends React.Component {
         );
     };
 
-    onDragEnd = result =>{
+    onDragEnd = result => {
         const { source, destination, draggableId } = result;
 
         if (!destination) {
@@ -127,33 +121,24 @@ export default class extends React.Component {
         
         const startRow = this.state.rows[source.droppableId];
         const finishRow = this.state.rows[destination.droppableId];
-
-        if (startRow === finishRow) {
-            const newRow = Array.from(startRow);
-            newRow.splice(source.index, 1);
-            newRow.splice(destination.index, 0, draggableId);
-
-            const rows = this.state.rows;
-            rows[source.droppableId] = newRow;
-
-            this.setState({
-                rows
-            });
-            return;
-        }
-
-        const newSourceRow = Array.from(startRow);
-        newSourceRow.splice(source.index, 1);
-
-        const newFinishRow = Array.from(finishRow);
-        newFinishRow.splice(destination.index, 0, draggableId);
+        const newRow = Array.from(startRow);
+        newRow.splice(source.index, 1);
 
         const rows = this.state.rows;
-        rows[source.droppableId] = newSourceRow;
-        rows[destination.droppableId] = newFinishRow;
+
+        if (startRow === finishRow) {
+            newRow.splice(destination.index, 0, draggableId);
+
+        } else {
+            const newFinishRow = Array.from(finishRow);
+            newFinishRow.splice(destination.index, 0, draggableId);
+            rows[destination.droppableId] = newFinishRow;
+        }
+
+        rows[source.droppableId] = newRow;
 
         this.setState({
             rows
         });
-   }
+   };
 }
