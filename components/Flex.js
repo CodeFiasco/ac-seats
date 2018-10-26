@@ -13,8 +13,8 @@ const Flex = ({ children, direction, style = {} }) => {
     return (
         <div style={{
             ...styles.container,
-            ...style,
-            flexFlow: `${direction === Flex.DIRECTION.VERTICAL ? 'column' : 'row'} nowrap`
+            flexFlow: `${direction === Flex.DIRECTION.VERTICAL ? 'column' : 'row'} nowrap`,
+            ...style
         }}>
             {children}
         </div>

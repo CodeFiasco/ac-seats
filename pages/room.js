@@ -6,63 +6,67 @@ import sounds from '../utils/sound';
 
 const SPACE_KEY = 32;
 const S_KEY = 83;
-let jerkMode = false;
+let start = false;
 
 export default class extends React.Component {
     static async getInitialProps({ query }) {
-        const cadets = query.campus.cadets;
-        return { rows: converter.cadetsToRows(cadets), size: cadets.length };
+        return { cadets : query.campus.cadets };
     };
     
-    state = { rows: this.props.rows, show: 0 };
+    state = { 
+        unselected: shuffleTwoDimensionArray(converter.cadetsToRows(this.props.cadets)),
+        selected: createEmptyRows(converter.cadetsToRows(this.props.cadets)),
+        list: [] // empty array to randomize only on client side (in componentDidMount)
+    };
     
     componentDidMount() {
-        sounds.init(this.props.size);
+        sounds.init(this.props.cadets.length);
+        this.setState({
+            list: shuffleArray(extractNames(this.props.cadets))
+        });
         
         document.addEventListener('keydown', key => {
-            if (this.state.show === 0 && key.keyCode === S_KEY) {
-                jerkMode = true;
-            }
-
             if (key.keyCode !== SPACE_KEY || sounds.isPlaying()) {
                 return;
             }
 
-            if (!jerkMode && this.state.show === 0) {
-                randomize(this.props.rows);
-            }
-
+            start = true;
             sounds.suspense();
         });
 
         document.addEventListener('keyup', key => {
-            if (key.keyCode === S_KEY) {
-                jerkMode = true;
+            if (key.keyCode === S_KEY && !start) {
+                this.setState({
+                    unselected: converter.cadetsToRows(this.props.cadets)
+                });
             }
 
             if (key.keyCode !== SPACE_KEY) {
                 return;
             }
             
-            this.setState({ show: this.state.show + 1 });
+            this.pickCadet();
             sounds.tada();
         });
     };
 
     render() {
-        let aux = 0;
-
         return (
             <div>
                 <Header/>
+                <Flex style={{ flexFlow: 'row wrap', width: '20%', maxWidth: '20%', alignContent: 'center', margin: '0 5%', float: 'left', height: '100vh' }}>
+                    {this.state.list.map((cadet, index) => (
+                        <span key={index} style={{ margin: '10px' }}>{cadet}</span>
+                    ))}
+                </Flex>
                 <Flex direction={Flex.DIRECTION.VERTICAL} style={{ height: '100vh' }}>
-                    {this.state.rows.map((row, index) => (
-                        <Flex key={index}>
+                    {this.state.selected.map((row, index) => (
+                        <Flex key={index} style={{ width: '70%', float: 'right' }}>
                             {row.map((cadet, index) =>
                                 <Flex key={index} direction={Flex.DIRECTION.VERTICAL}>
                                     <Card>
                                         <Card.Image src="/static/chair.png" />
-                                        <Card.Description text={aux++ < this.state.show ? cadet : ''} />
+                                        <Card.Description text={ cadet } />
                                     </Card>
                                 </Flex>
                             )}
@@ -72,20 +76,69 @@ export default class extends React.Component {
             </div>
         );
     };
+
+    pickCadet = () => {
+        const unselected = Array.from(this.state.unselected);
+        const selected = Array.from(this.state.selected);
+
+        console.log(unselected);
+        console.log(selected);
+        
+        let row = getRandom(unselected.length);
+        let seat = getRandom(unselected[row].length);
+        
+        while(selected[row][seat] !== '') {
+            row = getRandom(unselected.length);
+            seat = getRandom(unselected[row].length);
+        }
+        
+        selected[row][seat] = unselected[row][seat];
+        unselected[row][seat] = '';
+        const list = this.state.list.filter(name => name !== selected[row][seat]);
+
+        this.setState({
+            selected,
+            unselected,
+            list
+        });
+    }
 };
 
-function randomize(rows) {
+function shuffleArray(arr) {
+    const newArr = Array.from(arr);
 
-    for (let i = 0; i < rows.length; i++) {
+    newArr.forEach((elem, index) => {
+        const randomIndex = getRandom(newArr.length);
+        newArr[index] = newArr[randomIndex];
+        newArr[randomIndex] = elem;
+    });
 
-        for (let j = 0; j < rows[i].length; j++) {
-            const r = Math.floor(Math.random() * rows.length);
-            const s = Math.floor(Math.random() * rows[r].length);
-            const aux = rows[r][s];
-            rows[r][s] = rows[i][j];
-            rows[i][j] = aux;
-        }
-    }
+    return newArr;
+}
 
-    return rows;
+function shuffleTwoDimensionArray(arr) {
+    const newArr = Array.from(arr);
+
+    newArr.forEach((row, rowNumber) => {
+        row.forEach((elem, columnNumber) => {
+            const randomRow = getRandom(newArr.length);
+            const randomColumn = getRandom(newArr[randomRow].length);
+            newArr[rowNumber][columnNumber] = newArr[randomRow][randomColumn];
+            newArr[randomRow][randomColumn] = elem;
+        });
+    });
+
+    return newArr;
+}
+
+function extractNames(cadets) {
+    return cadets.map(cadet => cadet.name);
+}
+
+function getRandom(max) {
+    return Math.floor(Math.random() * max);
+}
+
+function createEmptyRows(rows) {
+    return rows.map(row => row.map(() => ''));
 }
