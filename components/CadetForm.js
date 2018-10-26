@@ -67,6 +67,12 @@ export default class extends React.Component {
     }
 
     createCadet() {
+
+        if (this.state.rows.length === 0) {
+            alert('You need to add a row first!');
+            return;
+        }
+
         const cadetName = this.state.newCadetName;
 
         if (!cadetName) {
