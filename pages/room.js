@@ -15,14 +15,14 @@ export default class extends React.Component {
     
     state = { 
         selected: createEmptyRows(converter.cadetsToRows(this.props.cadets)),
-        // work around to randomize only on client side (in componentDidMount)
+        // work around to randomize arrays only on client side (in componentDidMount)
         unselected: [],
-        list: [] // empty array to randomize only on client side (in componentDidMount)
+        list: [] 
     };
     
     componentDidMount() {
         sounds.init(this.props.cadets.length);
-        
+
         this.setState({
             unselected: shuffleTwoDimensionArray(converter.cadetsToRows(this.props.cadets)),
             list: shuffleArray(extractNames(this.props.cadets))
