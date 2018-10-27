@@ -23,6 +23,9 @@ app.prepare()
 
   const campusWebController = require('./controller/web/campus');
   campusWebController.init(server, app);
+
+  const dashboardWebController = require('./controller/web/dashboard');
+  dashboardWebController.init(server, app);
     
   server.get('*', (req, res) => {
     return handle(req, res);

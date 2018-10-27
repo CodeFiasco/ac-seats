@@ -4,6 +4,10 @@ import CampusList from '../components/CampusList';
 import CadetForm from '../components/CadetForm';
 
 export default class extends React.Component {
+    static async getInitialProps({ query }) {
+        return { campuses: query.campuses };
+    };
+
     constructor(props) {
         super(props);
         this.state = {login: false, error: ''};
@@ -16,7 +20,7 @@ export default class extends React.Component {
             view = <LoginForm handleSubmit={this.handleSubmit} error={this.state.error} />
         
         } else if (!this.state.location) {
-            view = <CampusList handleSelect={this.handleSelect} token={this.state.token}/>
+            view = <CampusList handleSelect={this.handleSelect} campuses={this.props.campuses}/>
         }
 
         return (
