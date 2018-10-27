@@ -18,6 +18,8 @@ const Controls = styled.div`
     text-align: center;
 `;
 
+const Form = styled.form``;
+
 export default class extends React.Component {
     constructor(props) {
         super(props);
@@ -48,10 +50,10 @@ export default class extends React.Component {
                 </DragDropContext>
                 <Controls>
                     <button onClick={this.handleSubmit}>Save Changes</button><br />
-                    <form handleSubmit={this.createCadet}>
+                    <Form handleSubmit={this.createCadet}>
                         <input type="text" value={this.state.newCadetName} onChange={this.handleInput} />
                         <input type="submit" onClick={this.createCadet} value="Create Cadet" /><br/>
-                    </form>
+                    </Form>
                     <button onClick={this.addRow}>Add row</button>
                 </Controls>
             </div>
