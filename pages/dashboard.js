@@ -10,28 +10,19 @@ export default class extends React.Component {
     };
 
     render() {
-        if (!this.state.login) {
-            return (
-                <div>
-                    <Header />
-                    <LoginForm handleSubmit={this.handleSubmit} error={this.state.error}/>
-                </div>
-            );
-        }
+        let view = <CadetForm location={this.state.location} handleSubmit={this.handleCampusUpdate} token={this.state.token}/>;
 
-        if (!this.state.location) {
-            return (
-                <div>
-                    <Header />
-                    <CampusList handleSelect={this.handleSelect} token={this.state.token}/>
-                </div>
-            );
+        if (!this.state.login) {
+            view = <LoginForm handleSubmit={this.handleSubmit} error={this.state.error} />
+        
+        } else if (!this.state.location) {
+            view = <CampusList handleSelect={this.handleSelect} token={this.state.token}/>
         }
 
         return (
             <div>
                 <Header />
-                <CadetForm location={this.state.location} handleSubmit={this.handleCampusUpdate} token={this.state.token}/>
+                {view}
             </div>
         );
     };
