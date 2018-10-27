@@ -3,6 +3,7 @@ export default {
         this.drums = new Audio('/static/drumroll.ogg');
         this.drums.loop = true;
         this.badum = new Audio('/static/badum.ogg');
+        this.rick = new Audio('/static/rick.ogg');
         this.playing = false;
         this.times = times;
         this.counter = 0;
@@ -31,7 +32,7 @@ export default {
         this.counter++;
 
         if (this.counter === this.times) {
-            this.badum.onended = () => (new Audio('/static/rick.ogg')).play();
+            this.badum.onended = () => this.rick.play();
         }
     },
 
