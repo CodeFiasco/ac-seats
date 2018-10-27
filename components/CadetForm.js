@@ -88,6 +88,10 @@ export default class extends React.Component {
     };
 
     deleteCadet = (name) => {
+        if (!confirm(`Cadet ${name} will be deleted. Continue?`)) {
+            return;
+        }
+
         const rows = this.state.rows;
         const updatedRows = rows.map(row => row.filter(cadetName => cadetName !== name));
 
@@ -97,6 +101,10 @@ export default class extends React.Component {
     };
 
     deleteRow = (id) => {
+        if (!confirm(`Entire row ${id} will be deleted. Continue?`)) {
+            return;
+        }
+
         const rows = Array.from(this.state.rows);
         rows.splice(id, 1);
 
