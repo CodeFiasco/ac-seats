@@ -6,7 +6,7 @@ export default class extends React.Component {
             <Head>
                 <title>&lt;A/C_&gt; Randomizer</title>
                 <link href="/static/styles.css" rel="stylesheet" />
-                <link rel="shortcut icon" type="image/png" href="/static/favicon.png"/>
+                <link rel="shortcut icon" type="image/png" href="/static/favicon.ico"/>
             </Head>
         )
     }
