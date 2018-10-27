@@ -16,6 +16,7 @@ const CadetList = styled.div`
     display: flex;
     min-width: 100%;
     justify-content: center;
+    align-items: center;
 `;
 
 export default class extends React.Component {
@@ -28,6 +29,9 @@ export default class extends React.Component {
                             ref={provided.innerRef}
                             {...provided.droppableProps}
                         >
+                            <span>
+                                {this.props.id}
+                            </span>
                             {this.props.cadets.map((cadet, index) =>
                                 <Cadet key={index} name={cadet} index={index} deleteCadet={this.props.deleteCadet}/>
                                 )}
