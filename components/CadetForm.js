@@ -44,7 +44,7 @@ export default class extends React.Component {
                 <DragDropContext onDragEnd={this.onDragEnd}>
                     <Container>
                         {this.state.rows.map((row, index) => 
-                            <Row key={index} id={index + ''} cadets={row} deleteCadet={this.deleteCadet}/>
+                            <Row key={index} id={index + ''} cadets={row} deleteRow={this.deleteRow} deleteCadet={this.deleteCadet}/>
                             )}
                     </Container>
                 </DragDropContext>
@@ -95,6 +95,15 @@ export default class extends React.Component {
             rows: updatedRows
         });
     };
+
+    deleteRow = (id) => {
+        const rows = Array.from(this.state.rows);
+        rows.splice(id, 1);
+
+        this.setState({
+            rows
+        });
+    }
 
     addRow = () => {
         const rows = this.state.rows;

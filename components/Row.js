@@ -8,6 +8,7 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    position: relative;
 `;
 
 const CadetList = styled.div`
@@ -19,10 +20,29 @@ const CadetList = styled.div`
     align-items: center;
 `;
 
+const DeleteButton = styled.button`
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    border: none;
+    background: red;
+    border-radius: 50%;
+    color: #fff;
+    font-weight: bold;
+    font-size: 8px;
+    width: 16px;
+    height: 16px;
+    line-height: 8px;
+    padding: 0;
+    outline: none;
+    cursor: pointer;
+`;
+
 export default class extends React.Component {
     render() {
         return (
             <Container>
+                <DeleteButton onClick={this.deleteRow}>X</DeleteButton>
                 <Droppable droppableId={this.props.id} direction="horizontal">
                     {(provided) =>
                         <CadetList
@@ -41,6 +61,9 @@ export default class extends React.Component {
                 </Droppable>
             </Container>
         );
-        
+    };
+
+    deleteRow = () => {
+        this.props.deleteRow(parseInt(this.props.id));
     }
 }
