@@ -48,8 +48,10 @@ export default class extends React.Component {
                 </DragDropContext>
                 <Controls>
                     <button onClick={this.handleSubmit}>Save Changes</button><br />
-                    <input type="text" value={this.state.newCadetName} onChange={this.handleInput} />
-                    <button onClick={this.createCadet}>Add Cadet</button><br/>
+                    <form handleSubmit={this.createCadet}>
+                        <input type="text" value={this.state.newCadetName} onChange={this.handleInput} />
+                        <input type="submit" onClick={this.createCadet} value="Create Cadet" /><br/>
+                    </form>
                     <button onClick={this.addRow}>Add row</button>
                 </Controls>
             </div>
@@ -60,7 +62,8 @@ export default class extends React.Component {
         this.setState({newCadetName: event.target.value});
     }
 
-    createCadet = () => {
+    createCadet = (event) => {
+        event.preventDefault();
 
         if (this.state.rows.length === 0) {
             alert('You need to add a row first!');
