@@ -44,7 +44,7 @@ export default class extends React.Component {
                 });
             }
 
-            if (key.keyCode !== SPACE_KEY) {
+            if (key.keyCode !== SPACE_KEY || sounds.isOver()) {
                 return;
             }
             

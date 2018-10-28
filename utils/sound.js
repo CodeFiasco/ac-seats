@@ -38,5 +38,9 @@ export default {
 
     isPlaying() {
         return this.playing;
+    },
+    
+    isOver() {
+        return this.counter >= this.times;
     }
 }
