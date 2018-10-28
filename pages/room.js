@@ -116,11 +116,13 @@ function shuffleArray(arr) {
     return newArr;
 }
 
-function shuffleTwoDimensionArray(arr) {
+function shuffleTwoDimensionArray(arr, times = 5) {
     const newArr = Array.from(arr);
 
     newArr.forEach((row, rowNumber) => {
-        row.forEach((elem, columnNumber) => {
+        newArr[rowNumber] = Array.from(arr[rowNumber]);
+
+        newArr[rowNumber].forEach((elem, columnNumber) => {
             const randomRow = getRandom(newArr.length);
             const randomColumn = getRandom(newArr[randomRow].length);
             newArr[rowNumber][columnNumber] = newArr[randomRow][randomColumn];
@@ -128,7 +130,8 @@ function shuffleTwoDimensionArray(arr) {
         });
     });
 
-    return newArr;
+    times--;
+    return times === 0 ? newArr : shuffleTwoDimensionArray(newArr, times);
 }
 
 function extractNames(cadets) {
