@@ -1,5 +1,6 @@
 import { DragDropContext } from 'react-beautiful-dnd';
 import Row from './Row';
+import SelectionControls from '../components/SelectionControls';
 import styled from 'styled-components';
 import converter from '../utils/converter';
 
@@ -7,18 +8,6 @@ const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
 `;
-
-const Controls = styled.div`
-    width: 300px;
-    display: block;
-    margin: 10px auto;
-    background: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-`;
-
-const Form = styled.form``;
 
 export default class extends React.Component {
     constructor(props) {
@@ -48,42 +37,22 @@ export default class extends React.Component {
                             )}
                     </Container>
                 </DragDropContext>
-                <Controls>
-                    <button onClick={this.handleSubmit}>Save Changes</button><br />
-                    <Form handleSubmit={this.createCadet}>
-                        <input type="text" value={this.state.newCadetName} onChange={this.handleInput} />
-                        <input type="submit" onClick={this.createCadet} value="Create Cadet" /><br/>
-                    </Form>
-                    <button onClick={this.addRow}>Add row</button>
-                </Controls>
+                <SelectionControls handleSubmit={this.handleSubmit} createCadet={this.createCadet} addRow={this.addRow} />
             </div>
         );
     };
 
-    handleInput = (event) => {
-        this.setState({newCadetName: event.target.value});
-    }
-
-    createCadet = (event) => {
-        event.preventDefault();
-
+    createCadet = (name) => {
         if (this.state.rows.length === 0) {
             alert('You need to add a row first!');
             return;
         }
 
-        const cadetName = this.state.newCadetName;
-
-        if (!cadetName) {
-            return;
-        }
-
-        const rows = this.state.rows;
-        rows[rows.length - 1].push(cadetName);
+        const rows = Array.from(this.state.rows);
+        rows[rows.length - 1].push(name);
 
         this.setState({
             rows,
-            newCadetName: ''
         });
     };
 
@@ -114,7 +83,7 @@ export default class extends React.Component {
     }
 
     addRow = () => {
-        const rows = this.state.rows;
+        const rows = Array.from(this.state.rows);
         rows.push([]);
 
         this.setState({
@@ -122,9 +91,7 @@ export default class extends React.Component {
         });
     };
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-
+    handleSubmit = () => {
         this.props.handleSubmit(
             converter.rowsToCadets(this.state.rows)
         );
